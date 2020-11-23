@@ -23,6 +23,7 @@ function PlaintextEditor({ file, write }) {
 
     write(newFile, value);
   };
+
   return (
     <div className={css.editor}>
       <div className={css.title}>{path.basename(file.name)}</div>
