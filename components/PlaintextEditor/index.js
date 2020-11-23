@@ -26,7 +26,6 @@ function PlaintextEditor({ file, write }) {
   return (
     <div className={css.editor}>
       <div className={css.title}>{path.basename(file.name)}</div>
-      {/* <div className={css.content}>{value}</div> */}
       <textarea
         className={css.content}
         value={value}
