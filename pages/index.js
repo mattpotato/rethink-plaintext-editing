@@ -99,7 +99,7 @@ Previewer.propTypes = {
 
 // Uncomment keys to register editors for media types
 const REGISTERED_EDITORS = {
-  // "text/plain": PlaintextEditor,
+  'text/plain': PlaintextEditor
   // "text/markdown": MarkdownEditor,
 };
 
@@ -108,14 +108,54 @@ function PlaintextFilesChallenge() {
   const [activeFile, setActiveFile] = useState(null);
 
   useEffect(() => {
-    const files = listFiles();
-    setFiles(files);
+    const initializeFiles = async () => {
+      const savedFiles = localStorage.getItem('files');
+
+      // nothing in localStorage
+      if (!savedFiles) {
+        const files = listFiles();
+        const filesObject = {};
+
+        // have to use for loop instead of reduce because of file.text()
+        for (const file of files) {
+          const text = await file.text();
+          filesObject[file.name] = {
+            name: file.name,
+            text: text,
+            type: file.type,
+            lastModified: file.lastModified
+          };
+        }
+        localStorage.setItem('files', JSON.stringify(filesObject));
+        setFiles(files);
+      } else {
+        // parse localStorage
+        console.log(savedFiles);
+        const files = Object.values(JSON.parse(savedFiles)).map(file => {
+          return new File([file.text], file.name, {
+            type: file.type,
+            lastModified: file.lastModified
+          });
+        });
+        setFiles(files);
+      }
+    };
+    initializeFiles();
   }, []);
 
-  const write = file => {
+  const write = (file, updatedText) => {
     console.log('Writing soon... ', file.name);
 
     // TODO: Write the file to the `files` array
+    const savedFiles = JSON.parse(localStorage.getItem('files')) || {};
+    savedFiles[file.name] = {
+      name: file.name,
+      text: updatedText,
+      type: file.type,
+      lastModified: new Date()
+    };
+
+    localStorage.setItem('files', JSON.stringify(savedFiles));
   };
 
   const Editor = activeFile ? REGISTERED_EDITORS[activeFile.type] : null;
