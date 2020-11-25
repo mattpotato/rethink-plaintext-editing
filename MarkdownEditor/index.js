@@ -7,7 +7,7 @@ import path from 'path';
 
 function MarkdownEditor({ file, write }) {
   console.log(file, write);
-  const [value, setValue] = useState('# sdahdsuiahduishda');
+  const [value, setValue] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
