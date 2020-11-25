@@ -12,3 +12,8 @@ To run the challenge:
 Once complete, please email us a link to your forked repo with clean, tested code. We will use Chrome to run it.
 
 - Rethink Engineering
+
+## Features
+* Editable plaintext and markdown files
+* Render Markdown
+* Persist files in Local Storage
