@@ -11,7 +11,7 @@ function MarkdownEditor({ file, write }) {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    async () => setValue(await file.text());
+    (async () => setValue(await file.text()))();
   }, [file]);
 
   const onSave = () => {
